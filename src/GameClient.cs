@@ -10,13 +10,24 @@ namespace RPG.src
 {
     class GameClient
     {
-        private TcpClient client;
+        private TcpListener clientListener;
 
-        public GameClient(String ipAddress, int port)
+        private Handler handler;
+
+        private String ipAddress;
+        private int serverPort;
+        public int ownPort;
+
+        public GameClient(Handler handler, String ipAddress, int serverPort, int ownPort)
         {
+            this.handler = handler;
+            this.ipAddress = ipAddress;
+            this.serverPort = serverPort;
+            this.ownPort = ownPort;
             try
             {
-                client = new TcpClient(ipAddress, port);
+                clientListener = new TcpListener(IPAddress.Any, ownPort); // Needs fix
+                clientListener.Start();
                 Thread thread = new Thread(new ThreadStart(Run));
                 thread.IsBackground = true; // Thread closes when the windows are closed
                 thread.Start();
@@ -28,22 +39,20 @@ namespace RPG.src
         {
             while (true)
             {
-                byte[] data = new byte[1024];
                 try
                 {
+                    byte[] data = new byte[1024];
+                    TcpClient client = clientListener.AcceptTcpClient();
                     client.Client.Receive(data);
 
-                    String ipAddress = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
-                    int port = ((IPEndPoint)client.Client.RemoteEndPoint).Port;
-
-                    ParsePacket(data, ipAddress, port);
+                    ParsePacket(data);
+                    client.Close();
                 }
                 catch (Exception) { }
-                Thread.Sleep(100);
             }
         }
 
-        public void ParsePacket(byte[] data, String ipAddress, int port)
+        public void ParsePacket(byte[] data)
         {
             String dataStr = System.Text.ASCIIEncoding.UTF8.GetString(data).Trim();
             Packet.PacketTypes type = Packet.FindPacket(dataStr.Substring(0, 2));
@@ -53,7 +62,7 @@ namespace RPG.src
                     break;
                 case Packet.PacketTypes.LOGIN:
                     Packet00Login loginPacket = new Packet00Login(data);
-                    // Handle login
+                    handler.form2.label1.Text = loginPacket.GetUsername();
                     break;
                 case Packet.PacketTypes.DISCONNECT:
                     Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
@@ -66,7 +75,9 @@ namespace RPG.src
         {
             try
             {
+                TcpClient client = new TcpClient(ipAddress, serverPort);
                 client.Client.Send(data);
+                client.Close();
             }
             catch (Exception) { }
         }

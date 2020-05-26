@@ -8,16 +8,25 @@ namespace RPG.src
     class Packet00Login : Packet
     {
         private String username;
+        private String port;
 
         public Packet00Login(byte[] data) : base(00)
         {
             String[] dataArr = ReadData(data).Split(',');
             username = dataArr[0];
+            port = dataArr[1];
         }
 
+        // Only for server sending data to client
         public Packet00Login(String username) : base(00)
         {
             this.username = username;
+        }
+
+        public Packet00Login(String username, String port) : base(00)
+        {
+            this.username = username;
+            this.port = port;
         }
 
         public override void WriteData(GameClient client)
@@ -32,12 +41,17 @@ namespace RPG.src
 
         public override byte[] GetData()
         {
-            return Encoding.ASCII.GetBytes("00" + username);
+            return Encoding.ASCII.GetBytes("00" + username + "," + port);
         }
 
         public String GetUsername()
         {
             return username;
+        }
+
+        public String GetPort()
+        {
+            return port;
         }
     }
 }

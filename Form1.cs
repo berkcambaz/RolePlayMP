@@ -23,6 +23,7 @@ namespace RPG
         public Form1()
         {
             InitializeComponent();
+            Label.CheckForIllegalCrossThreadCalls = false;
 
             HostIP_textBox.Text = GetLocalIP();
             form2 = new Form2();
@@ -30,10 +31,10 @@ namespace RPG
         }
         private void Join_button_Click(object sender, EventArgs e)
         {
-            PlayerMP player = new PlayerMP(SettingsName_textBox.Text, JoinIP_textBox.Text, int.Parse(JoinPort_textBox.Text));
-            gameClient = new GameClient(player.ipAddress, player.port);
+            PlayerMP player = new PlayerMP(SettingsName_textBox.Text, JoinIP_textBox.Text, GetRandomUnusedPort());
+            gameClient = new GameClient(handler, player.ipAddress, int.Parse(JoinPort_textBox.Text), player.port);
 
-            Packet00Login loginPacket = new Packet00Login(player.username);
+            Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
 
             form2.Show();
@@ -41,12 +42,11 @@ namespace RPG
 
         private void Host_button_Click(object sender, EventArgs e)
         {
-            PlayerMP player = new PlayerMP(SettingsName_textBox.Text, HostIP_textBox.Text, int.Parse(HostPort_textBox.Text));
-            gameServer = new GameServer(handler, player.ipAddress, player.port);
-            gameClient = new GameClient(player.ipAddress, player.port);
+            PlayerMP player = new PlayerMP(SettingsName_textBox.Text, HostIP_textBox.Text, GetRandomUnusedPort());
+            gameServer = new GameServer(handler, player.ipAddress, int.Parse(HostPort_textBox.Text));
+            gameClient = new GameClient(handler, player.ipAddress, int.Parse(HostPort_textBox.Text), player.port);
 
-            Packet00Login loginPacket = new Packet00Login(player.username);
-            gameServer.AddConnection(player, loginPacket);
+            Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
 
             form2.Show();
@@ -63,6 +63,14 @@ namespace RPG
                 }
             }
             return null;
+        }
+        private int GetRandomUnusedPort()
+        {
+            var listener = new TcpListener(IPAddress.Any, 0);
+            listener.Start();
+            var port = ((IPEndPoint)listener.LocalEndpoint).Port;
+            listener.Stop();
+            return port;
         }
     }
 }

@@ -21,7 +21,7 @@ namespace RPG.src
             this.handler = handler;
             try
             {
-                server = new TcpListener(IPAddress.Parse(ipAddress), port);
+                server = new TcpListener(IPAddress.Any, port);
                 server.Start();
                 Thread thread = new Thread(new ThreadStart(Run));
                 thread.IsBackground = true; // Thread closes when the windows are closed
@@ -34,23 +34,22 @@ namespace RPG.src
         {
             while (true)
             {
-                byte[] data = new byte[1024];
                 try
                 {
+                    byte[] data = new byte[1024];
                     TcpClient client = server.AcceptTcpClient();
                     client.Client.Receive(data);
 
-                    String ipAddress = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
-                    int port = ((IPEndPoint)client.Client.RemoteEndPoint).Port;
+                    String ipAddress = ((IPEndPoint)client.Client.LocalEndPoint).Address.ToString();
 
-                    ParsePacket(data, ipAddress, port);
+                    ParsePacket(data, ipAddress);
+                    client.Close();
                 }
                 catch (Exception) { }
-                Thread.Sleep(100);
             }
         }
 
-        public void ParsePacket(byte[] data, String ipAddress, int port)
+        public void ParsePacket(byte[] data, String ipAddress)
         {
             String dataStr = System.Text.ASCIIEncoding.UTF8.GetString(data).Trim();
             Packet.PacketTypes type = Packet.FindPacket(dataStr.Substring(0, 2));
@@ -60,7 +59,7 @@ namespace RPG.src
                     break;
                 case Packet.PacketTypes.LOGIN:
                     Packet00Login loginPacket = new Packet00Login(data);
-                    PlayerMP player = new PlayerMP(loginPacket.GetUsername(), ipAddress, port);
+                    PlayerMP player = new PlayerMP(loginPacket.GetUsername(), ipAddress, int.Parse(loginPacket.GetPort()));
                     AddConnection(player, loginPacket);
                     break;
                 case Packet.PacketTypes.DISCONNECT:
@@ -90,7 +89,7 @@ namespace RPG.src
             if (!alreadyConnected)
             {
                 connectedPlayers.AddLast(player);
-                handler.form2.label1.Text = player.username;
+                //handler.form2.label1.Text = player.username;
             }
         }
 
@@ -118,6 +117,7 @@ namespace RPG.src
             {
                 TcpClient client = new TcpClient(ipAddress, port);
                 client.Client.Send(data);
+                client.Client.Close();
             }
             catch (Exception) { }
         }
