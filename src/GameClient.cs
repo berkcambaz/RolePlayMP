@@ -12,21 +12,21 @@ namespace RPG.src
     {
         private TcpListener clientListener;
 
-        private Handler handler;
+        private Form2 gameForm;
 
+        private PlayerMP player;
         private String ipAddress;
         private int serverPort;
-        public int ownPort;
 
-        public GameClient(Handler handler, String ipAddress, int serverPort, int ownPort)
+        public GameClient(Form2 gameForm, PlayerMP player, String ipAddress, int serverPort)
         {
-            this.handler = handler;
+            this.gameForm = gameForm;
+            this.player = player;
             this.ipAddress = ipAddress;
             this.serverPort = serverPort;
-            this.ownPort = ownPort;
             try
             {
-                clientListener = new TcpListener(IPAddress.Any, ownPort); // Needs fix
+                clientListener = new TcpListener(IPAddress.Any, player.port);
                 clientListener.Start();
                 Thread thread = new Thread(new ThreadStart(Run));
                 thread.IsBackground = true; // Thread closes when the windows are closed
@@ -62,20 +62,31 @@ namespace RPG.src
                     break;
                 case Packet.PacketTypes.LOGIN:
                     Packet00Login loginPacket = new Packet00Login(data);
-                    handler.form2.label1.Text = loginPacket.GetUsername();
+                    HandleLogin(loginPacket);
                     break;
                 case Packet.PacketTypes.DISCONNECT:
                     Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
-                    // Handle disconnect
+                    HandleDisconnect(disconnectPacket);
                     break;
             }
+        }
+
+        private void HandleLogin(Packet00Login loginPacket)
+        {
+            gameForm.Players_listBox.Items.Add(loginPacket.GetUsername());
+        }
+
+        private void HandleDisconnect(Packet01Disconnect disconnectPacket)
+        {
+            gameForm.Players_listBox.Items.Remove((object)disconnectPacket.GetUsername());
         }
 
         public void SendData(byte[] data)
         {
             try
             {
-                TcpClient client = new TcpClient(ipAddress, serverPort);
+                TcpClient client = new TcpClient();
+                client.Connect(ipAddress, serverPort);
                 client.Client.Send(data);
                 client.Close();
             }

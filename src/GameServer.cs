@@ -14,11 +14,8 @@ namespace RPG.src
         private LinkedList<PlayerMP> connectedPlayers = new LinkedList<PlayerMP>();
         private TcpListener server;
 
-        private Handler handler;
-
-        public GameServer(Handler handler, String ipAddress, int port)
+        public GameServer(int port)
         {
-            this.handler = handler;
             try
             {
                 server = new TcpListener(IPAddress.Any, port);
@@ -40,9 +37,9 @@ namespace RPG.src
                     TcpClient client = server.AcceptTcpClient();
                     client.Client.Receive(data);
 
-                    String ipAddress = ((IPEndPoint)client.Client.LocalEndPoint).Address.ToString();
+                    String clientIPAddress = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
 
-                    ParsePacket(data, ipAddress);
+                    ParsePacket(data, clientIPAddress);
                     client.Close();
                 }
                 catch (Exception) { }
@@ -69,7 +66,7 @@ namespace RPG.src
             }
         }
 
-        public void AddConnection(PlayerMP player, Packet00Login packet)
+        public void AddConnection(PlayerMP player, Packet00Login loginPacket)
         {
             bool alreadyConnected = false;
             foreach (PlayerMP p in connectedPlayers)
@@ -81,7 +78,7 @@ namespace RPG.src
                 else
                 {
                     // Send newly connected player's data to already connected players
-                    SendData(packet.GetData(), p.ipAddress, p.port);
+                    SendData(loginPacket.GetData(), p.ipAddress, p.port);
                     // Send already connected players' data to newly connected player
                     SendData(new Packet00Login(p.username).GetData(), player.ipAddress, player.port);
                 }
@@ -89,17 +86,17 @@ namespace RPG.src
             if (!alreadyConnected)
             {
                 connectedPlayers.AddLast(player);
-                //handler.form2.label1.Text = player.username;
+                SendData(loginPacket.GetData(), player.ipAddress, player.port);
             }
         }
 
-        public void RemoveConnection(Packet01Disconnect packet)
+        public void RemoveConnection(Packet01Disconnect disconnectPacket)
         {
-            connectedPlayers.Remove(GetPlayerMPNode(packet.GetUsername()));
-            packet.WriteData(this);
+            connectedPlayers.Remove(GetPlayerMPNode(disconnectPacket.GetUsername()));
+            disconnectPacket.WriteData(this);
         }
 
-        public PlayerMP GetPlayerMPNode(String username)
+        private PlayerMP GetPlayerMPNode(String username)
         {
             foreach (PlayerMP p in connectedPlayers)
             {
@@ -115,7 +112,8 @@ namespace RPG.src
         {
             try
             {
-                TcpClient client = new TcpClient(ipAddress, port);
+                TcpClient client = new TcpClient();
+                client.Connect(ipAddress, port);
                 client.Client.Send(data);
                 client.Client.Close();
             }

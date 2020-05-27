@@ -60,7 +60,6 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="src\GameClient.cs" />
     <Compile Include="src\GameServer.cs" />
-    <Compile Include="src\Handler.cs" />
     <Compile Include="src\Packet.cs" />
     <Compile Include="src\Packet00Login.cs" />
     <Compile Include="src\Packet01Disconnect.cs" />

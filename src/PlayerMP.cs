@@ -6,7 +6,7 @@ using System.Text;
 
 namespace RPG.src
 {
-    class PlayerMP
+    public class PlayerMP
     {
         public String username;
         public String ipAddress;

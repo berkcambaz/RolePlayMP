@@ -18,15 +18,15 @@ namespace RPG.src
         }
 
         // Only for server sending data to client
-        public Packet00Login(String username) : base(00)
-        {
-            this.username = username;
-        }
-
         public Packet00Login(String username, String port) : base(00)
         {
             this.username = username;
             this.port = port;
+        }
+
+        public Packet00Login(String username) : base(00)
+        {
+            this.username = username;
         }
 
         public override void WriteData(GameClient client)

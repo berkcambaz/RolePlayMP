@@ -26,7 +26,7 @@ namespace RPG.src
 
         public String ReadData(byte[] data)
         {
-            String dataStr = System.Text.ASCIIEncoding.UTF8.GetString(data).Trim();
+            String dataStr = System.Text.ASCIIEncoding.UTF8.GetString(data).Replace("\0", "");
             return dataStr.Substring(2);
         }
 

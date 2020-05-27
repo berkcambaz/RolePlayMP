@@ -14,42 +14,48 @@ namespace RPG
 {
     public partial class Form1 : Form
     {
-        private GameServer gameServer;
-        private GameClient gameClient;
+        private static GameClient gameClient;
+        private static PlayerMP player;
 
-        private Handler handler;
+        private static Form1 loginForm;
+        private static Form2 gameForm;
 
-        private Form2 form2;
         public Form1()
         {
             InitializeComponent();
             Label.CheckForIllegalCrossThreadCalls = false;
+            ListBox.CheckForIllegalCrossThreadCalls = false;
 
-            HostIP_textBox.Text = GetLocalIP();
-            form2 = new Form2();
-            handler = new Handler(this, form2);
+            loginForm = this;
+            gameForm = new Form2();
+
         }
+
         private void Join_button_Click(object sender, EventArgs e)
         {
-            PlayerMP player = new PlayerMP(SettingsName_textBox.Text, JoinIP_textBox.Text, GetRandomUnusedPort());
-            gameClient = new GameClient(handler, player.ipAddress, int.Parse(JoinPort_textBox.Text), player.port);
+            player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort());
+
+            gameClient = new GameClient(gameForm, player, JoinIP_textBox.Text, int.Parse(JoinPort_textBox.Text));
 
             Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
 
-            form2.Show();
+            loginForm.Hide();
+            gameForm.Show();
         }
 
         private void Host_button_Click(object sender, EventArgs e)
         {
-            PlayerMP player = new PlayerMP(SettingsName_textBox.Text, HostIP_textBox.Text, GetRandomUnusedPort());
-            gameServer = new GameServer(handler, player.ipAddress, int.Parse(HostPort_textBox.Text));
-            gameClient = new GameClient(handler, player.ipAddress, int.Parse(HostPort_textBox.Text), player.port);
+            player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort());
+
+            GameServer gameServer = new GameServer(int.Parse(HostPort_textBox.Text));
+            gameClient = new GameClient(gameForm, player, GetLocalIP(), int.Parse(HostPort_textBox.Text));
 
             Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
 
-            form2.Show();
+            loginForm.Hide();
+            gameForm.Show();
         }
 
         private String GetLocalIP()
@@ -64,6 +70,7 @@ namespace RPG
             }
             return null;
         }
+
         private int GetRandomUnusedPort()
         {
             var listener = new TcpListener(IPAddress.Any, 0);
@@ -71,6 +78,13 @@ namespace RPG
             var port = ((IPEndPoint)listener.LocalEndpoint).Port;
             listener.Stop();
             return port;
+        }
+
+        public static void CloseForm()
+        {
+            Packet01Disconnect disconnectPacket = new Packet01Disconnect(player.username);
+            disconnectPacket.WriteData(gameClient);
+            loginForm.Close();
         }
     }
 }
