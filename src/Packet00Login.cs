@@ -41,7 +41,7 @@ namespace RPG.src
 
         public override byte[] GetData()
         {
-            return Encoding.ASCII.GetBytes("00" + username + "," + port);
+            return Encoding.UTF8.GetBytes("00" + username + "," + port);
         }
 
         public String GetUsername()

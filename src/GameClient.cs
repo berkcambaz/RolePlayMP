@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RolePlayMP.src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -8,7 +9,7 @@ using System.Threading;
 
 namespace RPG.src
 {
-    class GameClient
+    public class GameClient
     {
         private TcpListener clientListener;
 
@@ -68,6 +69,10 @@ namespace RPG.src
                     Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
                     HandleDisconnect(disconnectPacket);
                     break;
+                case Packet.PacketTypes.MESSAGE:
+                    Packet02Message messagePacket = new Packet02Message(data);
+                    HandleMessage(messagePacket);
+                    break;
             }
         }
 
@@ -79,6 +84,14 @@ namespace RPG.src
         private void HandleDisconnect(Packet01Disconnect disconnectPacket)
         {
             gameForm.Players_listBox.Items.Remove((object)disconnectPacket.GetUsername());
+        }
+
+        private void HandleMessage(Packet02Message messagePacket)
+        {
+            int caretPos = gameForm.Chat_textBox.Text.Length;
+            gameForm.Chat_textBox.Text += messagePacket.GetUsername() + " : " + messagePacket.GetMessage() + Environment.NewLine;
+            gameForm.Chat_textBox.Select(caretPos, 0);
+            gameForm.Chat_textBox.ScrollToCaret();
         }
 
         public void SendData(byte[] data)

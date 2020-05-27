@@ -1,4 +1,5 @@
-﻿using System;
+﻿using RolePlayMP.src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -62,6 +63,9 @@ namespace RPG.src
                 case Packet.PacketTypes.DISCONNECT:
                     Packet01Disconnect disconnectPacket = new Packet01Disconnect(data);
                     RemoveConnection(disconnectPacket);
+                    break;
+                case Packet.PacketTypes.MESSAGE:
+                    SendDataToAllClients(data); // Send the message to all clients
                     break;
             }
         }

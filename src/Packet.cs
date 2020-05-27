@@ -11,7 +11,8 @@ namespace RPG.src
         {
             INVALID = -1,
             LOGIN = 00,
-            DISCONNECT = 01
+            DISCONNECT = 01,
+            MESSAGE = 02
         }
 
         public byte packetId;
@@ -26,7 +27,7 @@ namespace RPG.src
 
         public String ReadData(byte[] data)
         {
-            String dataStr = System.Text.ASCIIEncoding.UTF8.GetString(data).Replace("\0", "");
+            String dataStr = System.Text.UTF8Encoding.UTF8.GetString(data).Replace("\0", "");
             return dataStr.Substring(2);
         }
 

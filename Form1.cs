@@ -23,6 +23,7 @@ namespace RPG
         public Form1()
         {
             InitializeComponent();
+
             Label.CheckForIllegalCrossThreadCalls = false;
             ListBox.CheckForIllegalCrossThreadCalls = false;
 
@@ -78,6 +79,16 @@ namespace RPG
             var port = ((IPEndPoint)listener.LocalEndpoint).Port;
             listener.Stop();
             return port;
+        }
+
+        public static GameClient GetGameClient()
+        {
+            return gameClient;
+        }
+
+        public static PlayerMP GetPlayerMP()
+        {
+            return player;
         }
 
         public static void CloseForm()

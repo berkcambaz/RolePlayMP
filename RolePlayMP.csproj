@@ -63,6 +63,7 @@
     <Compile Include="src\Packet.cs" />
     <Compile Include="src\Packet00Login.cs" />
     <Compile Include="src\Packet01Disconnect.cs" />
+    <Compile Include="src\Packet02Message.cs" />
     <Compile Include="src\PlayerMP.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>

@@ -1,22 +1,27 @@
-﻿using System;
+﻿using RPG.src;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
-namespace RPG.src
+namespace RolePlayMP.src
 {
-    class Packet01Disconnect : Packet
+    class Packet02Message : Packet
     {
         private String username;
+        private String message;
 
-        public Packet01Disconnect(byte[] data) : base(01)
+        public Packet02Message(byte[] data) : base(02)
         {
-            username = ReadData(data);
+            String[] dataArr = ReadData(data).Split(',');
+            username = dataArr[0];
+            message = dataArr[1];
         }
 
-        public Packet01Disconnect(String username) : base(01)
+        public Packet02Message(String username, String message) : base(02)
         {
             this.username = username;
+            this.message = message;
         }
 
         public override void WriteData(GameClient client)
@@ -31,12 +36,17 @@ namespace RPG.src
 
         public override byte[] GetData()
         {
-            return Encoding.UTF8.GetBytes("01" + username);
+            return Encoding.UTF8.GetBytes("02" + username + "," + message);
         }
 
         public String GetUsername()
         {
             return username;
+        }
+
+        public String GetMessage()
+        {
+            return message;
         }
     }
 }

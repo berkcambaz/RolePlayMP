@@ -80,9 +80,9 @@
             // 
             this.JoinPassword_textBox.Location = new System.Drawing.Point(10, 114);
             this.JoinPassword_textBox.Name = "JoinPassword_textBox";
-            this.JoinPassword_textBox.PasswordChar = '●';
             this.JoinPassword_textBox.Size = new System.Drawing.Size(100, 20);
             this.JoinPassword_textBox.TabIndex = 5;
+            this.JoinPassword_textBox.UseSystemPasswordChar = true;
             // 
             // label3
             // 
@@ -169,9 +169,9 @@
             // 
             this.HostPassword_textBox.Location = new System.Drawing.Point(10, 75);
             this.HostPassword_textBox.Name = "HostPassword_textBox";
-            this.HostPassword_textBox.PasswordChar = '●';
             this.HostPassword_textBox.Size = new System.Drawing.Size(100, 20);
             this.HostPassword_textBox.TabIndex = 5;
+            this.HostPassword_textBox.UseSystemPasswordChar = true;
             // 
             // label4
             // 

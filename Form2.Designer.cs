@@ -28,40 +28,55 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.tabControl1 = new System.Windows.Forms.TabControl();
+            this.ChatMenu_tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.ChatSend_textBox = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button1 = new System.Windows.Forms.Button();
             this.Players_listBox = new System.Windows.Forms.ListBox();
             this.Players_label = new System.Windows.Forms.Label();
-            this.tabControl1.SuspendLayout();
+            this.Chat_textBox = new System.Windows.Forms.TextBox();
+            this.ChatMenu_tabControl.SuspendLayout();
+            this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
-            // tabControl1
+            // ChatMenu_tabControl
             // 
-            this.tabControl1.Controls.Add(this.tabPage1);
-            this.tabControl1.Controls.Add(this.tabPage2);
-            this.tabControl1.Location = new System.Drawing.Point(145, 0);
-            this.tabControl1.Name = "tabControl1";
-            this.tabControl1.SelectedIndex = 0;
-            this.tabControl1.Size = new System.Drawing.Size(353, 341);
-            this.tabControl1.TabIndex = 1;
+            this.ChatMenu_tabControl.Controls.Add(this.tabPage1);
+            this.ChatMenu_tabControl.Controls.Add(this.tabPage2);
+            this.ChatMenu_tabControl.Location = new System.Drawing.Point(145, 0);
+            this.ChatMenu_tabControl.Name = "ChatMenu_tabControl";
+            this.ChatMenu_tabControl.SelectedIndex = 0;
+            this.ChatMenu_tabControl.Size = new System.Drawing.Size(353, 341);
+            this.ChatMenu_tabControl.TabIndex = 1;
             // 
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.Chat_textBox);
+            this.tabPage1.Controls.Add(this.ChatSend_textBox);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage1.Size = new System.Drawing.Size(345, 315);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "tabPage1";
+            // 
+            // ChatSend_textBox
+            // 
+            this.ChatSend_textBox.Location = new System.Drawing.Point(7, 264);
+            this.ChatSend_textBox.MaxLength = 128;
+            this.ChatSend_textBox.Multiline = true;
+            this.ChatSend_textBox.Name = "ChatSend_textBox";
+            this.ChatSend_textBox.Size = new System.Drawing.Size(332, 45);
+            this.ChatSend_textBox.TabIndex = 1;
+            this.ChatSend_textBox.KeyDown += new System.Windows.Forms.KeyEventHandler(this.ChatSend_textBox_KeyDown);
             // 
             // tabPage2
             // 
@@ -88,35 +103,15 @@
             this.panel1.Size = new System.Drawing.Size(139, 341);
             this.panel1.TabIndex = 2;
             // 
-            // button1
+            // button5
             // 
-            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button1.Location = new System.Drawing.Point(3, 3);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(133, 35);
-            this.button1.TabIndex = 0;
-            this.button1.Text = "button1";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button2.Location = new System.Drawing.Point(3, 38);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(133, 35);
-            this.button2.TabIndex = 1;
-            this.button2.Text = "button2";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // button3
-            // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button3.Location = new System.Drawing.Point(3, 73);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(133, 35);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.button5.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button5.Location = new System.Drawing.Point(3, 143);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(133, 35);
+            this.button5.TabIndex = 4;
+            this.button5.Text = "button5";
+            this.button5.UseVisualStyleBackColor = true;
             // 
             // button4
             // 
@@ -128,22 +123,42 @@
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // button5
+            // button3
             // 
-            this.button5.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button5.Location = new System.Drawing.Point(3, 143);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(133, 35);
-            this.button5.TabIndex = 4;
-            this.button5.Text = "button5";
-            this.button5.UseVisualStyleBackColor = true;
+            this.button3.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button3.Location = new System.Drawing.Point(3, 73);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(133, 35);
+            this.button3.TabIndex = 2;
+            this.button3.Text = "button3";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // button2
+            // 
+            this.button2.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button2.Location = new System.Drawing.Point(3, 38);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(133, 35);
+            this.button2.TabIndex = 1;
+            this.button2.Text = "button2";
+            this.button2.UseVisualStyleBackColor = true;
+            // 
+            // button1
+            // 
+            this.button1.Dock = System.Windows.Forms.DockStyle.Top;
+            this.button1.Location = new System.Drawing.Point(3, 3);
+            this.button1.Name = "button1";
+            this.button1.Size = new System.Drawing.Size(133, 35);
+            this.button1.TabIndex = 0;
+            this.button1.Text = "button1";
+            this.button1.UseVisualStyleBackColor = true;
             // 
             // Players_listBox
             // 
             this.Players_listBox.FormattingEnabled = true;
             this.Players_listBox.Location = new System.Drawing.Point(505, 21);
             this.Players_listBox.Name = "Players_listBox";
-            this.Players_listBox.Size = new System.Drawing.Size(107, 316);
+            this.Players_listBox.Size = new System.Drawing.Size(115, 316);
             this.Players_listBox.TabIndex = 3;
             // 
             // Players_label
@@ -155,6 +170,16 @@
             this.Players_label.TabIndex = 4;
             this.Players_label.Text = "Oyuncular :";
             // 
+            // Chat_textBox
+            // 
+            this.Chat_textBox.Location = new System.Drawing.Point(7, 7);
+            this.Chat_textBox.Multiline = true;
+            this.Chat_textBox.Name = "Chat_textBox";
+            this.Chat_textBox.ReadOnly = true;
+            this.Chat_textBox.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.Chat_textBox.Size = new System.Drawing.Size(332, 251);
+            this.Chat_textBox.TabIndex = 2;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -163,12 +188,14 @@
             this.Controls.Add(this.Players_label);
             this.Controls.Add(this.Players_listBox);
             this.Controls.Add(this.panel1);
-            this.Controls.Add(this.tabControl1);
+            this.Controls.Add(this.ChatMenu_tabControl);
             this.Name = "Form2";
             this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
             this.Text = "RPG";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
-            this.tabControl1.ResumeLayout(false);
+            this.ChatMenu_tabControl.ResumeLayout(false);
+            this.tabPage1.ResumeLayout(false);
+            this.tabPage1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -176,7 +203,7 @@
         }
 
         #endregion
-        private System.Windows.Forms.TabControl tabControl1;
+        private System.Windows.Forms.TabControl ChatMenu_tabControl;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
         private System.Windows.Forms.Panel panel1;
@@ -187,5 +214,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Label Players_label;
         public System.Windows.Forms.ListBox Players_listBox;
+        public System.Windows.Forms.TextBox ChatSend_textBox;
+        public System.Windows.Forms.TextBox Chat_textBox;
     }
 }
