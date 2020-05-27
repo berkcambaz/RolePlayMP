@@ -68,26 +68,26 @@ namespace RPG.src
 
         public void AddConnection(PlayerMP player, Packet00Login loginPacket)
         {
-            bool alreadyConnected = false;
+            // Check if the same player name is used by another user
             foreach (PlayerMP p in connectedPlayers)
             {
-                if (String.Equals(player.username, p.username, StringComparison.OrdinalIgnoreCase))
+                if (p.username.Equals(loginPacket.GetUsername()))
                 {
-                    alreadyConnected = true;
-                }
-                else
-                {
-                    // Send newly connected player's data to already connected players
-                    SendData(loginPacket.GetData(), p.ipAddress, p.port);
-                    // Send already connected players' data to newly connected player
-                    SendData(new Packet00Login(p.username).GetData(), player.ipAddress, player.port);
+                    return;
                 }
             }
-            if (!alreadyConnected)
+
+            // If not used, send & receive data
+            foreach (PlayerMP p in connectedPlayers)
             {
-                connectedPlayers.AddLast(player);
-                SendData(loginPacket.GetData(), player.ipAddress, player.port);
+                // Send newly connected player's data to already connected players
+                SendData(loginPacket.GetData(), p.ipAddress, p.port);
+                // Send already connected players' data to newly connected player
+                SendData(new Packet00Login(p.username).GetData(), player.ipAddress, player.port);
             }
+
+            connectedPlayers.AddLast(player);
+            SendData(loginPacket.GetData(), player.ipAddress, player.port);
         }
 
         public void RemoveConnection(Packet01Disconnect disconnectPacket)

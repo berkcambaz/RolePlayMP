@@ -28,7 +28,6 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.label1 = new System.Windows.Forms.Label();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.tabPage2 = new System.Windows.Forms.TabPage();
@@ -39,20 +38,10 @@
             this.button4 = new System.Windows.Forms.Button();
             this.button5 = new System.Windows.Forms.Button();
             this.Players_listBox = new System.Windows.Forms.ListBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.Players_label = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
-            this.tabPage1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.SuspendLayout();
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(6, 3);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(13, 13);
-            this.label1.TabIndex = 0;
-            this.label1.Text = "0";
             // 
             // tabControl1
             // 
@@ -67,7 +56,6 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
-            this.tabPage1.Controls.Add(this.label1);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -158,21 +146,21 @@
             this.Players_listBox.Size = new System.Drawing.Size(107, 316);
             this.Players_listBox.TabIndex = 3;
             // 
-            // label2
+            // Players_label
             // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(505, 3);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(61, 13);
-            this.label2.TabIndex = 4;
-            this.label2.Text = "Oyuncular :";
+            this.Players_label.AutoSize = true;
+            this.Players_label.Location = new System.Drawing.Point(505, 3);
+            this.Players_label.Name = "Players_label";
+            this.Players_label.Size = new System.Drawing.Size(61, 13);
+            this.Players_label.TabIndex = 4;
+            this.Players_label.Text = "Oyuncular :";
             // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(624, 341);
-            this.Controls.Add(this.label2);
+            this.Controls.Add(this.Players_label);
             this.Controls.Add(this.Players_listBox);
             this.Controls.Add(this.panel1);
             this.Controls.Add(this.tabControl1);
@@ -181,8 +169,6 @@
             this.Text = "RPG";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.Form2_FormClosing);
             this.tabControl1.ResumeLayout(false);
-            this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -190,8 +176,6 @@
         }
 
         #endregion
-
-        public System.Windows.Forms.Label label1;
         private System.Windows.Forms.TabControl tabControl1;
         private System.Windows.Forms.TabPage tabPage1;
         private System.Windows.Forms.TabPage tabPage2;
@@ -201,7 +185,7 @@
         private System.Windows.Forms.Button button4;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.Label Players_label;
         public System.Windows.Forms.ListBox Players_listBox;
     }
 }
