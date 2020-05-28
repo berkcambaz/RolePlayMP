@@ -36,6 +36,7 @@ namespace RPG.src
                 {
                     byte[] data = new byte[1024];
                     TcpClient client = server.AcceptTcpClient();
+                    client.ReceiveTimeout = 100;
                     client.Client.Receive(data);
 
                     String clientIPAddress = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
@@ -51,13 +52,14 @@ namespace RPG.src
         {
             String dataStr = System.Text.ASCIIEncoding.UTF8.GetString(data).Trim();
             Packet.PacketTypes type = Packet.FindPacket(dataStr.Substring(0, 2));
+            PlayerMP player = null;
             switch (type)
             {
                 case Packet.PacketTypes.INVALID:
                     break;
                 case Packet.PacketTypes.LOGIN:
                     Packet00Login loginPacket = new Packet00Login(data);
-                    PlayerMP player = new PlayerMP(loginPacket.GetUsername(), ipAddress, int.Parse(loginPacket.GetPort()));
+                    player = new PlayerMP(loginPacket.GetUsername(), ipAddress, int.Parse(loginPacket.GetPort()), 0);
                     AddConnection(player, loginPacket);
                     break;
                 case Packet.PacketTypes.DISCONNECT:
@@ -65,10 +67,26 @@ namespace RPG.src
                     RemoveConnection(disconnectPacket);
                     break;
                 case Packet.PacketTypes.MESSAGE:
-                    SendDataToAllClients(data); // Send the message to all clients
+                    Packet02Message messagePacket = new Packet02Message(data);
+                    player = GetPlayerMPNode(messagePacket.GetUsername());
+
+                    // Only send message to the players that are in the same room
+                    foreach (PlayerMP p in connectedPlayers)
+                    {
+                        if (!p.username.Equals(player.username) && p.roomNumber.Equals(player.roomNumber))
+                        {
+                            SendData(data, p.ipAddress, p.port);
+                        }
+                    }
                     break;
                 case Packet.PacketTypes.ROUND_START:
-                    SendDataToAllClients(data);
+                    SendDataToAllClientsNotServer(data);
+                    break;
+                case Packet.PacketTypes.ROUND_END:
+                    Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(data);
+                    player = GetPlayerMPNode(roundEndPacket.GetUsername());
+                    player.roomNumber = Room.GetRoomIndex(roundEndPacket.GetDestination());
+                    SendData(data, player.ipAddress, player.port);
                     break;
             }
         }
@@ -120,6 +138,7 @@ namespace RPG.src
             try
             {
                 TcpClient client = new TcpClient();
+                client.SendTimeout = 500;
                 client.Connect(ipAddress, port);
                 client.Client.Send(data);
                 client.Client.Close();
@@ -132,6 +151,43 @@ namespace RPG.src
             foreach (PlayerMP p in connectedPlayers)
             {
                 SendData(data, p.ipAddress, p.port);
+            }
+        }
+
+        public void SendDataToAllClientsNotServer(byte[] data)
+        {
+            bool skip = true;   // Only skip first PlayerMP(server)
+            foreach (PlayerMP p in connectedPlayers)
+            {
+                if (skip)
+                {
+                    skip = false;
+                    continue;
+                }
+                SendData(data, p.ipAddress, p.port);
+            }
+        }
+
+        public void SendDataToAllClientsNotSender(byte[] data, String senderUsername)
+        {
+            foreach (PlayerMP p in connectedPlayers)
+            {
+                if (!p.username.Equals(senderUsername))
+                {
+                    SendData(data, p.ipAddress, p.port);
+                }
+            }
+        }
+
+        public void SendDataToSender(byte[] data, String senderUsername)
+        {
+            foreach (PlayerMP p in connectedPlayers)
+            {
+                if (p.username.Equals(senderUsername))
+                {
+                    SendData(data, p.ipAddress, p.port);
+                    break;
+                }
             }
         }
     }

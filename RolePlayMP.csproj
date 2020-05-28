@@ -65,6 +65,7 @@
     <Compile Include="src\Packet01Disconnect.cs" />
     <Compile Include="src\Packet02Message.cs" />
     <Compile Include="src\Packet03RoundStart.cs" />
+    <Compile Include="src\Packet04RoundEnd.cs" />
     <Compile Include="src\PlayerMP.cs" />
     <Compile Include="src\Room.cs" />
     <EmbeddedResource Include="Form1.resx">

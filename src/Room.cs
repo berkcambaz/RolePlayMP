@@ -50,6 +50,19 @@ namespace RolePlayMP.src
             return roomDestination[index];
         }
 
+        public static int GetRoomIndex(String roomName)
+        {
+            for (int i = 0; i < roomNumber; i++)
+            {
+                if (roomNames[i].Equals(roomName))
+                {
+                    return i;
+                }
+            }
+
+            return 0;
+        }
+
         public static int GetCurrentRoom()
         {
             return currentRoom;

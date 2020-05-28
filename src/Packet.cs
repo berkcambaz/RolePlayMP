@@ -13,7 +13,8 @@ namespace RPG.src
             LOGIN = 00,
             DISCONNECT = 01,
             MESSAGE = 02,
-            ROUND_START = 03
+            ROUND_START = 03,
+            ROUND_END = 04
         }
 
         public byte packetId;

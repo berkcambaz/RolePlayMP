@@ -14,7 +14,9 @@ namespace RPG
 {
     public partial class Form2 : Form
     {
-        private int totalSeconds = 1;
+        private bool roundEndPacketSent = true;
+        private int roundTime = 20;    // Default 180
+        private int totalSeconds;
 
         public Form2()
         {
@@ -38,7 +40,13 @@ namespace RPG
                 {
                     Packet02Message messagePacket = new Packet02Message(Form1.GetPlayerMP().username, message.Trim());
                     messagePacket.WriteData(Form1.GetGameClient());
+
                     ChatSend_textBox.Clear();
+
+                    Chat_textBox.Text += messagePacket.GetUsername() + " : " + messagePacket.GetMessage() + Environment.NewLine;
+                    int caretPos = Chat_textBox.Text.Length;
+                    Chat_textBox.Select(caretPos, 0);
+                    Chat_textBox.ScrollToCaret();
                 }
             }
         }
@@ -59,13 +67,12 @@ namespace RPG
             Packet03RoundStart roundStartPacket = new Packet03RoundStart();
             roundStartPacket.WriteData(Form1.GetGameServer());
 
-            //totalSeconds = 3 * 60;
-            //CalculateTimer();
+            totalSeconds = roundTime;
+            CalculateTimer();
+            roundEndPacketSent = false;
 
             Countdown_button.Visible = false;
             Countdown_label.Visible = true;
-
-            //Countdown_timer.Start();
         }
 
         public void ReloadMap()
@@ -84,7 +91,25 @@ namespace RPG
             totalSeconds--;
             if (totalSeconds < 0)
             {
-                // Send packet to server
+                if (!roundEndPacketSent)
+                {
+                    if (Destination_listBox.SelectedItem == null)   // If user hasn't selected a destination to go
+                    {
+                        Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(Form1.GetPlayerMP().username, Destination_listBox.Items[0].ToString());
+                        roundEndPacket.WriteData(Form1.GetGameClient());
+                    }
+                    else
+                    {
+                        Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(Form1.GetPlayerMP().username, Destination_listBox.SelectedItem.ToString());
+                        roundEndPacket.WriteData(Form1.GetGameClient());
+                    }
+                    roundEndPacketSent = true;
+                    if (Form1.GetGameServer() != null)
+                    {
+                        Countdown_button.Visible = true;
+                        Countdown_label.Visible = false;
+                    }
+                }
                 Countdown_label.Text = "00 : 00";
                 return;
             }
@@ -100,8 +125,9 @@ namespace RPG
 
         public void SetTimer()
         {
-            totalSeconds = 3 * 60 - 10;
+            totalSeconds = roundTime - 10;
             CalculateTimer();
+            roundEndPacketSent = false;
         }
 
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)

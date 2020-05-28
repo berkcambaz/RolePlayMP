@@ -35,7 +35,7 @@ namespace RPG
 
         private void Join_button_Click(object sender, EventArgs e)
         {
-            player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort());
+            player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort(), 0);
 
             gameClient = new GameClient(gameForm, player, JoinIP_textBox.Text, int.Parse(JoinPort_textBox.Text));
 
@@ -49,7 +49,7 @@ namespace RPG
 
         private void Host_button_Click(object sender, EventArgs e)
         {
-            player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort());
+            player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort(), 0);
 
             gameServer = new GameServer(int.Parse(HostPort_textBox.Text));
             gameClient = new GameClient(gameForm, player, GetLocalIP(), int.Parse(HostPort_textBox.Text));

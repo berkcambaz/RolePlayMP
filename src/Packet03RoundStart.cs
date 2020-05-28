@@ -17,7 +17,7 @@ namespace RolePlayMP.src
 
         public override void WriteData(GameServer server)
         {
-            server.SendDataToAllClients(GetData());
+            server.SendDataToAllClientsNotServer(GetData());
         }
 
         public override byte[] GetData()

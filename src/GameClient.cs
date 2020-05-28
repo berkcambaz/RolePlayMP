@@ -44,6 +44,7 @@ namespace RPG.src
                 {
                     byte[] data = new byte[1024];
                     TcpClient client = clientListener.AcceptTcpClient();
+                    client.ReceiveTimeout = 100;
                     client.Client.Receive(data);
 
                     ParsePacket(data);
@@ -76,6 +77,10 @@ namespace RPG.src
                 case Packet.PacketTypes.ROUND_START:
                     HandleRoundStart();
                     break;
+                case Packet.PacketTypes.ROUND_END:
+                    Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(data);
+                    HandleRoundEnd(roundEndPacket);
+                    break;
             }
         }
 
@@ -102,12 +107,19 @@ namespace RPG.src
             gameForm.SetTimer();
         }
 
+        private void HandleRoundEnd(Packet04RoundEnd roundEndPacket)
+        {
+            Room.SetCurrentRoom(Room.GetRoomIndex(roundEndPacket.GetDestination()));
+            gameForm.ReloadMap();
+        }
+
         public void SendData(byte[] data)
         {
             try
             {
                 TcpClient client = new TcpClient();
                 client.Connect(ipAddress, serverPort);
+                client.SendTimeout = 500;
                 client.Client.Send(data);
                 client.Close();
             }
