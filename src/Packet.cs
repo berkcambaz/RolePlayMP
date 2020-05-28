@@ -5,14 +5,15 @@ using System.Text;
 
 namespace RPG.src
 {
-    abstract class Packet
+    public abstract class Packet
     {
         public enum PacketTypes
         {
             INVALID = -1,
             LOGIN = 00,
             DISCONNECT = 01,
-            MESSAGE = 02
+            MESSAGE = 02,
+            ROUND_START = 03
         }
 
         public byte packetId;

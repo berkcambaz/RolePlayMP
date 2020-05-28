@@ -73,6 +73,9 @@ namespace RPG.src
                     Packet02Message messagePacket = new Packet02Message(data);
                     HandleMessage(messagePacket);
                     break;
+                case Packet.PacketTypes.ROUND_START:
+                    HandleRoundStart();
+                    break;
             }
         }
 
@@ -88,10 +91,15 @@ namespace RPG.src
 
         private void HandleMessage(Packet02Message messagePacket)
         {
-            int caretPos = gameForm.Chat_textBox.Text.Length;
             gameForm.Chat_textBox.Text += messagePacket.GetUsername() + " : " + messagePacket.GetMessage() + Environment.NewLine;
+            int caretPos = gameForm.Chat_textBox.Text.Length;
             gameForm.Chat_textBox.Select(caretPos, 0);
             gameForm.Chat_textBox.ScrollToCaret();
+        }
+
+        private void HandleRoundStart()
+        {
+            gameForm.SetTimer();
         }
 
         public void SendData(byte[] data)

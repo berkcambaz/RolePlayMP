@@ -5,7 +5,7 @@ using System.Text;
 
 namespace RPG.src
 {
-    class Packet01Disconnect : Packet
+    public class Packet01Disconnect : Packet
     {
         private String username;
 

@@ -10,7 +10,7 @@ using System.Windows.Forms;
 
 namespace RPG.src
 {
-    class GameServer
+    public class GameServer
     {
         private LinkedList<PlayerMP> connectedPlayers = new LinkedList<PlayerMP>();
         private TcpListener server;
@@ -66,6 +66,9 @@ namespace RPG.src
                     break;
                 case Packet.PacketTypes.MESSAGE:
                     SendDataToAllClients(data); // Send the message to all clients
+                    break;
+                case Packet.PacketTypes.ROUND_START:
+                    SendDataToAllClients(data);
                     break;
             }
         }

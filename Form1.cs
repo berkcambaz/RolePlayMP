@@ -1,9 +1,11 @@
-﻿using RPG.src;
+﻿using RolePlayMP.src;
+using RPG.src;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
 using System.Drawing;
+using System.IO;
 using System.Linq;
 using System.Net;
 using System.Net.Sockets;
@@ -14,6 +16,7 @@ namespace RPG
 {
     public partial class Form1 : Form
     {
+        private static GameServer gameServer;
         private static GameClient gameClient;
         private static PlayerMP player;
 
@@ -24,12 +27,10 @@ namespace RPG
         {
             InitializeComponent();
 
-            Label.CheckForIllegalCrossThreadCalls = false;
             ListBox.CheckForIllegalCrossThreadCalls = false;
 
             loginForm = this;
             gameForm = new Form2();
-
         }
 
         private void Join_button_Click(object sender, EventArgs e)
@@ -41,6 +42,7 @@ namespace RPG
             Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
 
+            gameForm.Countdown_label.Visible = true;
             loginForm.Hide();
             gameForm.Show();
         }
@@ -49,12 +51,13 @@ namespace RPG
         {
             player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort());
 
-            GameServer gameServer = new GameServer(int.Parse(HostPort_textBox.Text));
+            gameServer = new GameServer(int.Parse(HostPort_textBox.Text));
             gameClient = new GameClient(gameForm, player, GetLocalIP(), int.Parse(HostPort_textBox.Text));
 
             Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
 
+            gameForm.Countdown_button.Visible = true;
             loginForm.Hide();
             gameForm.Show();
         }
@@ -79,6 +82,11 @@ namespace RPG
             var port = ((IPEndPoint)listener.LocalEndpoint).Port;
             listener.Stop();
             return port;
+        }
+
+        public static GameServer GetGameServer()
+        {
+            return gameServer;
         }
 
         public static GameClient GetGameClient()
