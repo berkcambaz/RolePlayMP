@@ -18,6 +18,8 @@ namespace RPG
         private int roundTime = 20;    // Default 180
         private int totalSeconds;
 
+        private int destinationListBoxSelectedItemIndex = -1;
+
         public Form2()
         {
             InitializeComponent();
@@ -27,7 +29,9 @@ namespace RPG
             tabControl.SizeMode = TabSizeMode.Fixed;
 
             Room.InitMap();
+
             ReloadMap();
+            ReloadInventory();
         }
 
         private void ChatSend_textBox_KeyDown(object sender, KeyEventArgs e)
@@ -61,13 +65,18 @@ namespace RPG
             tabControl.SelectedTab = MapMenu_tabPage;
         }
 
+        private void InventoryMenu_button_Click(object sender, EventArgs e)
+        {
+            tabControl.SelectedTab = InventoryMenu_tabPage;
+        }
+
         private void Countdown_button_Click(object sender, EventArgs e)
         {
             // Starts the round
             Packet03RoundStart roundStartPacket = new Packet03RoundStart();
             roundStartPacket.WriteData(Form1.GetGameServer());
 
-            totalSeconds = roundTime;
+            totalSeconds = roundTime - 10;
             CalculateTimer();
             roundEndPacketSent = false;
 
@@ -84,6 +93,12 @@ namespace RPG
             {
                 Destination_listBox.Items.Add(Room.GetRoomName(int.Parse(roomIndex)));
             }
+        }
+
+        public void ReloadInventory()
+        {
+            Health_label.Text = Form1.GetPlayerMP().health.ToString();
+            Gold_label.Text = Form1.GetPlayerMP().gold.ToString();
         }
 
         private void Countdown_timer_Tick(object sender, EventArgs e)
@@ -104,7 +119,7 @@ namespace RPG
                         roundEndPacket.WriteData(Form1.GetGameClient());
                     }
                     roundEndPacketSent = true;
-                    if (Form1.GetGameServer() != null)
+                    if (Form1.GetGameServer() != null)  // If owner of the form is host, make round start button visible
                     {
                         Countdown_button.Visible = true;
                         Countdown_label.Visible = false;
@@ -133,6 +148,19 @@ namespace RPG
         private void Form2_FormClosing(object sender, FormClosingEventArgs e)
         {
             Form1.CloseForm();
+        }
+
+        private void Destination_listBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (destinationListBoxSelectedItemIndex == Destination_listBox.SelectedIndex)
+            {
+                // De-select the selected item
+                Destination_listBox.ClearSelected();
+            }
+            else
+            {
+                destinationListBoxSelectedItemIndex = Destination_listBox.SelectedIndex;
+            }
         }
     }
 }

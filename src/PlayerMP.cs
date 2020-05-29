@@ -11,7 +11,10 @@ namespace RPG.src
         public String username;
         public String ipAddress;
         public int port;
+
         public int roomNumber;
+        public int health;
+        public int gold;
 
         public PlayerMP(String username, String ipAddress, int port, int roomNumber)
         {
@@ -19,6 +22,8 @@ namespace RPG.src
             this.ipAddress = ipAddress;
             this.port = port;
             this.roomNumber = roomNumber;
+            health = 5;     // Test
+            gold = 10;      // Test
         }
     }
 }

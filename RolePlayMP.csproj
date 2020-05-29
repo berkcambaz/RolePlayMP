@@ -68,6 +68,7 @@
     <Compile Include="src\Packet04RoundEnd.cs" />
     <Compile Include="src\PlayerMP.cs" />
     <Compile Include="src\Room.cs" />
+    <Compile Include="src\RoomEffect.cs" />
     <EmbeddedResource Include="Form1.resx">
       <DependentUpon>Form1.cs</DependentUpon>
     </EmbeddedResource>

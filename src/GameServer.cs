@@ -36,7 +36,7 @@ namespace RPG.src
                 {
                     byte[] data = new byte[1024];
                     TcpClient client = server.AcceptTcpClient();
-                    client.ReceiveTimeout = 100;
+                    client.ReceiveTimeout = 500;
                     client.Client.Receive(data);
 
                     String clientIPAddress = ((IPEndPoint)client.Client.RemoteEndPoint).Address.ToString();
@@ -86,6 +86,7 @@ namespace RPG.src
                     Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(data);
                     player = GetPlayerMPNode(roundEndPacket.GetUsername());
                     player.roomNumber = Room.GetRoomIndex(roundEndPacket.GetDestination());
+                    Room.Effect(ref player);
                     SendData(data, player.ipAddress, player.port);
                     break;
             }

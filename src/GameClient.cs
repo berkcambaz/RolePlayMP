@@ -44,7 +44,7 @@ namespace RPG.src
                 {
                     byte[] data = new byte[1024];
                     TcpClient client = clientListener.AcceptTcpClient();
-                    client.ReceiveTimeout = 100;
+                    client.ReceiveTimeout = 500;
                     client.Client.Receive(data);
 
                     ParsePacket(data);
@@ -110,7 +110,9 @@ namespace RPG.src
         private void HandleRoundEnd(Packet04RoundEnd roundEndPacket)
         {
             Room.SetCurrentRoom(Room.GetRoomIndex(roundEndPacket.GetDestination()));
+            Room.Effect(ref player);
             gameForm.ReloadMap();
+            gameForm.ReloadInventory();
         }
 
         public void SendData(byte[] data)

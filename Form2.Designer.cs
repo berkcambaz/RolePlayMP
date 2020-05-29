@@ -45,22 +45,31 @@
             this.Countdown_label = new System.Windows.Forms.Label();
             this.button5 = new System.Windows.Forms.Button();
             this.button4 = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.InventoryMenu_button = new System.Windows.Forms.Button();
             this.MapMenu_button = new System.Windows.Forms.Button();
             this.ChatMenu_button = new System.Windows.Forms.Button();
             this.Players_listBox = new System.Windows.Forms.ListBox();
             this.Players_label = new System.Windows.Forms.Label();
             this.Countdown_timer = new System.Windows.Forms.Timer(this.components);
+            this.InventoryMenu_tabPage = new System.Windows.Forms.TabPage();
+            this.label3 = new System.Windows.Forms.Label();
+            this.Health_label = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.Gold_label = new System.Windows.Forms.Label();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Inventory_listBox = new System.Windows.Forms.ListBox();
             this.tabControl.SuspendLayout();
             this.ChatMenu_tabPage.SuspendLayout();
             this.MapMenu_tabPage.SuspendLayout();
             this.panel1.SuspendLayout();
+            this.InventoryMenu_tabPage.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
             // 
             this.tabControl.Controls.Add(this.ChatMenu_tabPage);
             this.tabControl.Controls.Add(this.MapMenu_tabPage);
+            this.tabControl.Controls.Add(this.InventoryMenu_tabPage);
             this.tabControl.Location = new System.Drawing.Point(142, 0);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
@@ -147,6 +156,7 @@
             this.Destination_listBox.Name = "Destination_listBox";
             this.Destination_listBox.Size = new System.Drawing.Size(162, 95);
             this.Destination_listBox.TabIndex = 2;
+            this.Destination_listBox.SelectedIndexChanged += new System.EventHandler(this.Destination_listBox_SelectedIndexChanged);
             // 
             // CurrentRoom_label
             // 
@@ -172,7 +182,7 @@
             this.panel1.Controls.Add(this.Countdown_label);
             this.panel1.Controls.Add(this.button5);
             this.panel1.Controls.Add(this.button4);
-            this.panel1.Controls.Add(this.button3);
+            this.panel1.Controls.Add(this.InventoryMenu_button);
             this.panel1.Controls.Add(this.MapMenu_button);
             this.panel1.Controls.Add(this.ChatMenu_button);
             this.panel1.Dock = System.Windows.Forms.DockStyle.Left;
@@ -226,15 +236,16 @@
             this.button4.Text = "button4";
             this.button4.UseVisualStyleBackColor = true;
             // 
-            // button3
+            // InventoryMenu_button
             // 
-            this.button3.Dock = System.Windows.Forms.DockStyle.Top;
-            this.button3.Location = new System.Drawing.Point(3, 73);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(133, 35);
-            this.button3.TabIndex = 2;
-            this.button3.Text = "button3";
-            this.button3.UseVisualStyleBackColor = true;
+            this.InventoryMenu_button.Dock = System.Windows.Forms.DockStyle.Top;
+            this.InventoryMenu_button.Location = new System.Drawing.Point(3, 73);
+            this.InventoryMenu_button.Name = "InventoryMenu_button";
+            this.InventoryMenu_button.Size = new System.Drawing.Size(133, 35);
+            this.InventoryMenu_button.TabIndex = 2;
+            this.InventoryMenu_button.Text = "Envanter";
+            this.InventoryMenu_button.UseVisualStyleBackColor = true;
+            this.InventoryMenu_button.Click += new System.EventHandler(this.InventoryMenu_button_Click);
             // 
             // MapMenu_button
             // 
@@ -281,6 +292,75 @@
             this.Countdown_timer.Interval = 1000;
             this.Countdown_timer.Tick += new System.EventHandler(this.Countdown_timer_Tick);
             // 
+            // InventoryMenu_tabPage
+            // 
+            this.InventoryMenu_tabPage.Controls.Add(this.Inventory_listBox);
+            this.InventoryMenu_tabPage.Controls.Add(this.label5);
+            this.InventoryMenu_tabPage.Controls.Add(this.Gold_label);
+            this.InventoryMenu_tabPage.Controls.Add(this.label4);
+            this.InventoryMenu_tabPage.Controls.Add(this.Health_label);
+            this.InventoryMenu_tabPage.Controls.Add(this.label3);
+            this.InventoryMenu_tabPage.Location = new System.Drawing.Point(4, 22);
+            this.InventoryMenu_tabPage.Name = "InventoryMenu_tabPage";
+            this.InventoryMenu_tabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.InventoryMenu_tabPage.Size = new System.Drawing.Size(348, 315);
+            this.InventoryMenu_tabPage.TabIndex = 2;
+            this.InventoryMenu_tabPage.Text = "Inventory";
+            this.InventoryMenu_tabPage.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Sağlık :";
+            // 
+            // Health_label
+            // 
+            this.Health_label.AutoSize = true;
+            this.Health_label.Location = new System.Drawing.Point(56, 7);
+            this.Health_label.Name = "Health_label";
+            this.Health_label.Size = new System.Drawing.Size(13, 13);
+            this.Health_label.TabIndex = 1;
+            this.Health_label.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Altın :";
+            // 
+            // Gold_label
+            // 
+            this.Gold_label.AutoSize = true;
+            this.Gold_label.Location = new System.Drawing.Point(47, 24);
+            this.Gold_label.Name = "Gold_label";
+            this.Gold_label.Size = new System.Drawing.Size(13, 13);
+            this.Gold_label.TabIndex = 3;
+            this.Gold_label.Text = "0";
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Envanter :";
+            // 
+            // Inventory_listBox
+            // 
+            this.Inventory_listBox.FormattingEnabled = true;
+            this.Inventory_listBox.Location = new System.Drawing.Point(10, 57);
+            this.Inventory_listBox.Name = "Inventory_listBox";
+            this.Inventory_listBox.Size = new System.Drawing.Size(120, 95);
+            this.Inventory_listBox.TabIndex = 5;
+            // 
             // Form2
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -301,6 +381,8 @@
             this.MapMenu_tabPage.PerformLayout();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
+            this.InventoryMenu_tabPage.ResumeLayout(false);
+            this.InventoryMenu_tabPage.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -314,7 +396,7 @@
         private System.Windows.Forms.Button ChatMenu_button;
         private System.Windows.Forms.Button button5;
         private System.Windows.Forms.Button button4;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button InventoryMenu_button;
         private System.Windows.Forms.Button MapMenu_button;
         private System.Windows.Forms.Label Players_label;
         public System.Windows.Forms.ListBox Players_listBox;
@@ -329,5 +411,12 @@
         public System.Windows.Forms.Button Countdown_button;
         public System.Windows.Forms.Label Countdown_label;
         private System.Windows.Forms.Timer Countdown_timer;
+        private System.Windows.Forms.TabPage InventoryMenu_tabPage;
+        private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Label Health_label;
+        private System.Windows.Forms.Label Gold_label;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.ListBox Inventory_listBox;
     }
 }

@@ -30,12 +30,13 @@ namespace RPG
             ListBox.CheckForIllegalCrossThreadCalls = false;
 
             loginForm = this;
-            gameForm = new Form2();
         }
 
         private void Join_button_Click(object sender, EventArgs e)
         {
             player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort(), 0);
+
+            gameForm = new Form2();
 
             gameClient = new GameClient(gameForm, player, JoinIP_textBox.Text, int.Parse(JoinPort_textBox.Text));
 
@@ -50,6 +51,8 @@ namespace RPG
         private void Host_button_Click(object sender, EventArgs e)
         {
             player = new PlayerMP(SettingsName_textBox.Text, null, GetRandomUnusedPort(), 0);
+
+            gameForm = new Form2();
 
             gameServer = new GameServer(int.Parse(HostPort_textBox.Text));
             gameClient = new GameClient(gameForm, player, GetLocalIP(), int.Parse(HostPort_textBox.Text));
@@ -94,9 +97,9 @@ namespace RPG
             return gameClient;
         }
 
-        public static PlayerMP GetPlayerMP()
+        public static ref PlayerMP GetPlayerMP()
         {
-            return player;
+            return ref player;
         }
 
         public static void CloseForm()
