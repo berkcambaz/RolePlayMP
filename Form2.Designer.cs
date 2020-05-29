@@ -35,11 +35,16 @@
             this.ChatSend_textBox = new System.Windows.Forms.TextBox();
             this.MapMenu_tabPage = new System.Windows.Forms.TabPage();
             this.label2 = new System.Windows.Forms.Label();
-            this.listBox3 = new System.Windows.Forms.ListBox();
-            this.listBox2 = new System.Windows.Forms.ListBox();
             this.Destination_listBox = new System.Windows.Forms.ListBox();
             this.CurrentRoom_label = new System.Windows.Forms.Label();
             this.label1 = new System.Windows.Forms.Label();
+            this.InventoryMenu_tabPage = new System.Windows.Forms.TabPage();
+            this.Inventory_listBox = new System.Windows.Forms.ListBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.Gold_label = new System.Windows.Forms.Label();
+            this.label4 = new System.Windows.Forms.Label();
+            this.Health_label = new System.Windows.Forms.Label();
+            this.label3 = new System.Windows.Forms.Label();
             this.panel1 = new System.Windows.Forms.Panel();
             this.Countdown_button = new System.Windows.Forms.Button();
             this.Countdown_label = new System.Windows.Forms.Label();
@@ -51,18 +56,13 @@
             this.Players_listBox = new System.Windows.Forms.ListBox();
             this.Players_label = new System.Windows.Forms.Label();
             this.Countdown_timer = new System.Windows.Forms.Timer(this.components);
-            this.InventoryMenu_tabPage = new System.Windows.Forms.TabPage();
-            this.label3 = new System.Windows.Forms.Label();
-            this.Health_label = new System.Windows.Forms.Label();
-            this.label4 = new System.Windows.Forms.Label();
-            this.Gold_label = new System.Windows.Forms.Label();
-            this.label5 = new System.Windows.Forms.Label();
-            this.Inventory_listBox = new System.Windows.Forms.ListBox();
+            this.label6 = new System.Windows.Forms.Label();
+            this.Armor_label = new System.Windows.Forms.Label();
             this.tabControl.SuspendLayout();
             this.ChatMenu_tabPage.SuspendLayout();
             this.MapMenu_tabPage.SuspendLayout();
-            this.panel1.SuspendLayout();
             this.InventoryMenu_tabPage.SuspendLayout();
+            this.panel1.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -112,8 +112,6 @@
             // 
             this.MapMenu_tabPage.BackColor = System.Drawing.Color.Transparent;
             this.MapMenu_tabPage.Controls.Add(this.label2);
-            this.MapMenu_tabPage.Controls.Add(this.listBox3);
-            this.MapMenu_tabPage.Controls.Add(this.listBox2);
             this.MapMenu_tabPage.Controls.Add(this.Destination_listBox);
             this.MapMenu_tabPage.Controls.Add(this.CurrentRoom_label);
             this.MapMenu_tabPage.Controls.Add(this.label1);
@@ -132,22 +130,6 @@
             this.label2.Size = new System.Drawing.Size(78, 13);
             this.label2.TabIndex = 5;
             this.label2.Text = "Gideceğin yer :";
-            // 
-            // listBox3
-            // 
-            this.listBox3.FormattingEnabled = true;
-            this.listBox3.Location = new System.Drawing.Point(183, 214);
-            this.listBox3.Name = "listBox3";
-            this.listBox3.Size = new System.Drawing.Size(159, 95);
-            this.listBox3.TabIndex = 4;
-            // 
-            // listBox2
-            // 
-            this.listBox2.FormattingEnabled = true;
-            this.listBox2.Location = new System.Drawing.Point(6, 214);
-            this.listBox2.Name = "listBox2";
-            this.listBox2.Size = new System.Drawing.Size(159, 95);
-            this.listBox2.TabIndex = 3;
             // 
             // Destination_listBox
             // 
@@ -175,6 +157,78 @@
             this.label1.Size = new System.Drawing.Size(87, 13);
             this.label1.TabIndex = 0;
             this.label1.Text = "Bulunduğun yer :";
+            // 
+            // InventoryMenu_tabPage
+            // 
+            this.InventoryMenu_tabPage.Controls.Add(this.Armor_label);
+            this.InventoryMenu_tabPage.Controls.Add(this.label6);
+            this.InventoryMenu_tabPage.Controls.Add(this.Inventory_listBox);
+            this.InventoryMenu_tabPage.Controls.Add(this.label5);
+            this.InventoryMenu_tabPage.Controls.Add(this.Gold_label);
+            this.InventoryMenu_tabPage.Controls.Add(this.label4);
+            this.InventoryMenu_tabPage.Controls.Add(this.Health_label);
+            this.InventoryMenu_tabPage.Controls.Add(this.label3);
+            this.InventoryMenu_tabPage.Location = new System.Drawing.Point(4, 22);
+            this.InventoryMenu_tabPage.Name = "InventoryMenu_tabPage";
+            this.InventoryMenu_tabPage.Padding = new System.Windows.Forms.Padding(3);
+            this.InventoryMenu_tabPage.Size = new System.Drawing.Size(348, 315);
+            this.InventoryMenu_tabPage.TabIndex = 2;
+            this.InventoryMenu_tabPage.Text = "Inventory";
+            this.InventoryMenu_tabPage.UseVisualStyleBackColor = true;
+            // 
+            // Inventory_listBox
+            // 
+            this.Inventory_listBox.FormattingEnabled = true;
+            this.Inventory_listBox.Location = new System.Drawing.Point(10, 57);
+            this.Inventory_listBox.Name = "Inventory_listBox";
+            this.Inventory_listBox.Size = new System.Drawing.Size(120, 95);
+            this.Inventory_listBox.TabIndex = 5;
+            this.Inventory_listBox.SelectedIndexChanged += new System.EventHandler(this.Inventory_listBox_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(7, 41);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(56, 13);
+            this.label5.TabIndex = 4;
+            this.label5.Text = "Envanter :";
+            // 
+            // Gold_label
+            // 
+            this.Gold_label.AutoSize = true;
+            this.Gold_label.Location = new System.Drawing.Point(47, 24);
+            this.Gold_label.Name = "Gold_label";
+            this.Gold_label.Size = new System.Drawing.Size(13, 13);
+            this.Gold_label.TabIndex = 3;
+            this.Gold_label.Text = "0";
+            // 
+            // label4
+            // 
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(7, 24);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(33, 13);
+            this.label4.TabIndex = 2;
+            this.label4.Text = "Altın :";
+            // 
+            // Health_label
+            // 
+            this.Health_label.AutoSize = true;
+            this.Health_label.Location = new System.Drawing.Point(56, 7);
+            this.Health_label.Name = "Health_label";
+            this.Health_label.Size = new System.Drawing.Size(13, 13);
+            this.Health_label.TabIndex = 1;
+            this.Health_label.Text = "0";
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 7);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(42, 13);
+            this.label3.TabIndex = 0;
+            this.label3.Text = "Sağlık :";
             // 
             // panel1
             // 
@@ -292,74 +346,23 @@
             this.Countdown_timer.Interval = 1000;
             this.Countdown_timer.Tick += new System.EventHandler(this.Countdown_timer_Tick);
             // 
-            // InventoryMenu_tabPage
+            // label6
             // 
-            this.InventoryMenu_tabPage.Controls.Add(this.Inventory_listBox);
-            this.InventoryMenu_tabPage.Controls.Add(this.label5);
-            this.InventoryMenu_tabPage.Controls.Add(this.Gold_label);
-            this.InventoryMenu_tabPage.Controls.Add(this.label4);
-            this.InventoryMenu_tabPage.Controls.Add(this.Health_label);
-            this.InventoryMenu_tabPage.Controls.Add(this.label3);
-            this.InventoryMenu_tabPage.Location = new System.Drawing.Point(4, 22);
-            this.InventoryMenu_tabPage.Name = "InventoryMenu_tabPage";
-            this.InventoryMenu_tabPage.Padding = new System.Windows.Forms.Padding(3);
-            this.InventoryMenu_tabPage.Size = new System.Drawing.Size(348, 315);
-            this.InventoryMenu_tabPage.TabIndex = 2;
-            this.InventoryMenu_tabPage.Text = "Inventory";
-            this.InventoryMenu_tabPage.UseVisualStyleBackColor = true;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(94, 7);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(31, 13);
+            this.label6.TabIndex = 6;
+            this.label6.Text = "Zırh :";
             // 
-            // label3
+            // Armor_label
             // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 7);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(42, 13);
-            this.label3.TabIndex = 0;
-            this.label3.Text = "Sağlık :";
-            // 
-            // Health_label
-            // 
-            this.Health_label.AutoSize = true;
-            this.Health_label.Location = new System.Drawing.Point(56, 7);
-            this.Health_label.Name = "Health_label";
-            this.Health_label.Size = new System.Drawing.Size(13, 13);
-            this.Health_label.TabIndex = 1;
-            this.Health_label.Text = "0";
-            // 
-            // label4
-            // 
-            this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(7, 24);
-            this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(33, 13);
-            this.label4.TabIndex = 2;
-            this.label4.Text = "Altın :";
-            // 
-            // Gold_label
-            // 
-            this.Gold_label.AutoSize = true;
-            this.Gold_label.Location = new System.Drawing.Point(47, 24);
-            this.Gold_label.Name = "Gold_label";
-            this.Gold_label.Size = new System.Drawing.Size(13, 13);
-            this.Gold_label.TabIndex = 3;
-            this.Gold_label.Text = "0";
-            // 
-            // label5
-            // 
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(7, 41);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(56, 13);
-            this.label5.TabIndex = 4;
-            this.label5.Text = "Envanter :";
-            // 
-            // Inventory_listBox
-            // 
-            this.Inventory_listBox.FormattingEnabled = true;
-            this.Inventory_listBox.Location = new System.Drawing.Point(10, 57);
-            this.Inventory_listBox.Name = "Inventory_listBox";
-            this.Inventory_listBox.Size = new System.Drawing.Size(120, 95);
-            this.Inventory_listBox.TabIndex = 5;
+            this.Armor_label.AutoSize = true;
+            this.Armor_label.Location = new System.Drawing.Point(132, 7);
+            this.Armor_label.Name = "Armor_label";
+            this.Armor_label.Size = new System.Drawing.Size(13, 13);
+            this.Armor_label.TabIndex = 7;
+            this.Armor_label.Text = "0";
             // 
             // Form2
             // 
@@ -379,10 +382,10 @@
             this.ChatMenu_tabPage.PerformLayout();
             this.MapMenu_tabPage.ResumeLayout(false);
             this.MapMenu_tabPage.PerformLayout();
-            this.panel1.ResumeLayout(false);
-            this.panel1.PerformLayout();
             this.InventoryMenu_tabPage.ResumeLayout(false);
             this.InventoryMenu_tabPage.PerformLayout();
+            this.panel1.ResumeLayout(false);
+            this.panel1.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -404,10 +407,8 @@
         public System.Windows.Forms.TextBox Chat_textBox;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label CurrentRoom_label;
-        private System.Windows.Forms.ListBox listBox2;
         private System.Windows.Forms.ListBox Destination_listBox;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.ListBox listBox3;
         public System.Windows.Forms.Button Countdown_button;
         public System.Windows.Forms.Label Countdown_label;
         private System.Windows.Forms.Timer Countdown_timer;
@@ -418,5 +419,7 @@
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.ListBox Inventory_listBox;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Label Armor_label;
     }
 }

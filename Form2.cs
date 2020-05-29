@@ -1,4 +1,5 @@
 ﻿using RolePlayMP.src;
+using RolePlayMP.src.Inventory;
 using RPG.src;
 using System;
 using System.Collections.Generic;
@@ -15,10 +16,11 @@ namespace RPG
     public partial class Form2 : Form
     {
         private bool roundEndPacketSent = true;
-        private int roundTime = 20;    // Default 180
+        private int roundTime = 15;    // Default 180
         private int totalSeconds;
 
         private int destinationListBoxSelectedItemIndex = -1;
+        private int inventoryListBoxSelectedItemIndex = -1;
 
         public Form2()
         {
@@ -29,6 +31,7 @@ namespace RPG
             tabControl.SizeMode = TabSizeMode.Fixed;
 
             Room.InitMap();
+            Item.InitItems();
 
             ReloadMap();
             ReloadInventory();
@@ -98,7 +101,14 @@ namespace RPG
         public void ReloadInventory()
         {
             Health_label.Text = Form1.GetPlayerMP().health.ToString();
+            Armor_label.Text = Form1.GetPlayerMP().armor.ToString();
             Gold_label.Text = Form1.GetPlayerMP().gold.ToString();
+
+            Inventory_listBox.Items.Clear();
+            for (int i = 0; i < Form1.GetPlayerMP().inventory.totalItems; i++)
+            {
+                Inventory_listBox.Items.Add(Form1.GetPlayerMP().inventory.GetItemName(i));
+            }
         }
 
         private void Countdown_timer_Tick(object sender, EventArgs e)
@@ -110,12 +120,12 @@ namespace RPG
                 {
                     if (Destination_listBox.SelectedItem == null)   // If user hasn't selected a destination to go
                     {
-                        Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(Form1.GetPlayerMP().username, Destination_listBox.Items[0].ToString());
+                        Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(Form1.GetPlayerMP().username, Destination_listBox.Items[0].ToString(), Inventory_listBox.SelectedIndex.ToString());
                         roundEndPacket.WriteData(Form1.GetGameClient());
                     }
                     else
                     {
-                        Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(Form1.GetPlayerMP().username, Destination_listBox.SelectedItem.ToString());
+                        Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(Form1.GetPlayerMP().username, Destination_listBox.SelectedItem.ToString(), Inventory_listBox.SelectedIndex.ToString());
                         roundEndPacket.WriteData(Form1.GetGameClient());
                     }
                     roundEndPacketSent = true;
@@ -154,12 +164,23 @@ namespace RPG
         {
             if (destinationListBoxSelectedItemIndex == Destination_listBox.SelectedIndex)
             {
-                // De-select the selected item
-                Destination_listBox.ClearSelected();
+                Destination_listBox.ClearSelected();    // De-select the selected item
             }
             else
             {
                 destinationListBoxSelectedItemIndex = Destination_listBox.SelectedIndex;
+            }
+        }
+
+        private void Inventory_listBox_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (inventoryListBoxSelectedItemIndex == Inventory_listBox.SelectedIndex)
+            {
+                Inventory_listBox.ClearSelected();      // De-select the selected item
+            }
+            else
+            {
+                inventoryListBoxSelectedItemIndex = Inventory_listBox.SelectedIndex;
             }
         }
     }

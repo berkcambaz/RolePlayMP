@@ -10,18 +10,21 @@ namespace RolePlayMP.src
     {
         private String username;
         private String destination;
+        private String itemIndex;
 
         public Packet04RoundEnd(byte[] data) : base(04)
         {
             String[] dataArr = ReadData(data).Split(',');
             username = dataArr[0];
             destination = dataArr[1];
+            itemIndex = dataArr[2];
         }
 
-        public Packet04RoundEnd(String username, String destinationID) : base(04)
+        public Packet04RoundEnd(String username, String destinationID, String itemIndex) : base(04)
         {
             this.username = username;
             this.destination = destinationID;
+            this.itemIndex = itemIndex;
         }
         public override void WriteData(GameClient client)
         {
@@ -35,7 +38,7 @@ namespace RolePlayMP.src
 
         public override byte[] GetData()
         {
-            return Encoding.UTF8.GetBytes("04" + username + "," + destination);
+            return Encoding.UTF8.GetBytes("04" + username + "," + destination + "," + itemIndex);
         }
 
         public String GetUsername()
@@ -46,6 +49,11 @@ namespace RolePlayMP.src
         public String GetDestination()
         {
             return destination;
+        }
+
+        public String GetItemIndex()
+        {
+            return itemIndex;
         }
     }
 }

@@ -1,4 +1,5 @@
-﻿using RPG.src;
+﻿using RolePlayMP.src.Inventory;
+using RPG.src;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,6 +20,10 @@ namespace RolePlayMP.src
                     break;
                 case 2:     // Give gold to player
                     player.gold += effectModifier;
+                    break;
+                case 3:     // Give a random item to player
+                    Random random = new Random();
+                    player.inventory.AddItem(random.Next(Item.itemNumber));
                     break;
                 default:    // No effect
                     break;

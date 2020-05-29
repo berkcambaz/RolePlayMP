@@ -85,8 +85,8 @@ namespace RPG.src
                 case Packet.PacketTypes.ROUND_END:
                     Packet04RoundEnd roundEndPacket = new Packet04RoundEnd(data);
                     player = GetPlayerMPNode(roundEndPacket.GetUsername());
-                    player.roomNumber = Room.GetRoomIndex(roundEndPacket.GetDestination());
-                    Room.Effect(ref player);
+                    //player.roomNumber = Room.GetRoomIndex(roundEndPacket.GetDestination());
+                    //Room.Effect(ref player);
                     SendData(data, player.ipAddress, player.port);
                     break;
             }

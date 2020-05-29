@@ -12,7 +12,7 @@ namespace RolePlayMP.src
         private static RoomEffect roomEffect;
 
         private static int roomNumber;
-        private static String[] roomNames;
+        private static String[] roomName;
         private static String[] roomDestination;
         private static int[] roomEffectIndex;
         private static int[] roomEffectModifier;
@@ -28,7 +28,7 @@ namespace RolePlayMP.src
                 String[] mapFile = File.ReadAllLines("map.txt");    // TODO: Selectable maps
                 roomNumber = int.Parse(mapFile[0]);
 
-                roomNames = new String[roomNumber];
+                roomName = new String[roomNumber];
                 roomDestination = new String[roomNumber];
                 roomEffectIndex = new int[roomNumber];
                 roomEffectModifier = new int[roomNumber];
@@ -37,7 +37,7 @@ namespace RolePlayMP.src
                 {
                     String[] dataArr = mapFile[i + 1].Split(',');
                     int roomIndex = int.Parse(dataArr[0]);
-                    roomNames[roomIndex] = dataArr[1];
+                    roomName[roomIndex] = dataArr[1];
                     roomEffectIndex[roomIndex] = int.Parse(dataArr[2]);
                     roomEffectModifier[roomIndex] = int.Parse(dataArr[3]);
                 }
@@ -58,7 +58,7 @@ namespace RolePlayMP.src
 
         public static String GetRoomName(int index)
         {
-            return roomNames[index];
+            return roomName[index];
         }
 
         public static String GetRoomDestination(int index)
@@ -70,7 +70,7 @@ namespace RolePlayMP.src
         {
             for (int i = 0; i < roomNumber; i++)
             {
-                if (roomNames[i].Equals(roomName))
+                if (Room.roomName[i].Equals(roomName))
                 {
                     return i;
                 }

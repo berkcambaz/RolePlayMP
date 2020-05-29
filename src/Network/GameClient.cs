@@ -19,7 +19,7 @@ namespace RPG.src
         private String ipAddress;
         private int serverPort;
 
-        public GameClient(Form2 gameForm, PlayerMP player, String ipAddress, int serverPort)
+        public GameClient(Form2 gameForm, ref PlayerMP player, String ipAddress, int serverPort)
         {
             this.gameForm = gameForm;
             this.player = player;
@@ -111,6 +111,10 @@ namespace RPG.src
         {
             Room.SetCurrentRoom(Room.GetRoomIndex(roundEndPacket.GetDestination()));
             Room.Effect(ref player);
+
+            if (int.Parse(roundEndPacket.GetItemIndex()) != -1)
+                player.inventory.UseItem(ref player, int.Parse(roundEndPacket.GetItemIndex()));
+
             gameForm.ReloadMap();
             gameForm.ReloadInventory();
         }

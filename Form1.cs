@@ -38,7 +38,7 @@ namespace RPG
 
             gameForm = new Form2();
 
-            gameClient = new GameClient(gameForm, player, JoinIP_textBox.Text, int.Parse(JoinPort_textBox.Text));
+            gameClient = new GameClient(gameForm, ref player, JoinIP_textBox.Text, int.Parse(JoinPort_textBox.Text));
 
             Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
@@ -55,7 +55,7 @@ namespace RPG
             gameForm = new Form2();
 
             gameServer = new GameServer(int.Parse(HostPort_textBox.Text));
-            gameClient = new GameClient(gameForm, player, GetLocalIP(), int.Parse(HostPort_textBox.Text));
+            gameClient = new GameClient(gameForm, ref player, GetLocalIP(), int.Parse(HostPort_textBox.Text));
 
             Packet00Login loginPacket = new Packet00Login(player.username, player.port.ToString());
             loginPacket.WriteData(gameClient);
